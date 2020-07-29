@@ -13,7 +13,7 @@ python-dotenv = "*"
 pymongo = "*"
 flask-cors = "*"
 pyjwt = "*"
-flask-restful = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"

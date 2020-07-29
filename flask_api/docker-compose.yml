@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  web:
+    build: .
+    container_name: flask-react
+    command: gunicorn -b 0.0.0.0:80 api:app
+    volumes:
+      - ./build:/usr/src/app/build
+      - /etc/localtime:/etc/localtime
+    ports:
+            - "5000:80"
+    restart: always

@@ -1,17 +1,18 @@
 import os
 from pymongo import MongoClient
-from flask import Flask, request, current_app
-from flask_cors import CORS
+from flask import Flask, request
+# 调试使用
+# from flask_cors import CORS
 from bson.json_util import dumps
 
 
-app = Flask(__name__)
-CORS(app)
+app = Flask(__name__, static_folder="../build", static_url_path="/")
+# CORS(app)
 
 
 @app.route('/')
 def index():
-    return current_app.send_static_file('index.html')
+    return app.send_static_file('index.html')
 
 
 @app.route('/api/add_user', methods=('POST', 'GET'))
