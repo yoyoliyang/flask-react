@@ -90,32 +90,27 @@ const List = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    { data ? 
-                    data.map((item, index) => {
+                    {data.map((item, index) => {
                         return (
-                            // fragment = <></> 但是可以添加key
-                            <React.Fragment key={index}>
-                                <tr>
-                                    <td >{index + 1}</td>
-                                    <td >{item.user}</td>
-                                    <td >{item.id}</td>
-                                    <td >{item.type}</td>
-                                    <td onClick={() => { handleShowHistory(index) }}>{item.data[getMonth()].transfer_in}</td>
-                                    <Modal isOpen={historyButton && counter === index} ariaHideApp={false}>
-                                        <History id={item.id} month={getMonth()} closeHistoryModal={closeHistoryModal} />
-                                    </Modal>
-                                    <td >{item.data[getMonth()].transfer_out}</td>
-                                    <td >{item.data[getMonth()].note}</td>
-                                    <td ><button className="btn" style={{ color: "blue" }} onClick={() => handleTransForm(index)} >=</button></td>
-                                    <Modal isOpen={transButton && counter === index} ariaHideApp={false}>
-                                        {/* modal打开条件符合点击状态为ture和索引数=当前表格 */}
-                                        <Transfer getMonth={getMonth()} id={item.id} onChangeStates={onChangeStates} closeModal={closeModal} transferSucc={handleTransferSucc} />
-                                    </Modal>
-                                </tr>
-                            </React.Fragment>
-
+                            <tr>
+                                <td>{index + 1}</td>
+                                <td>{item.user}</td>
+                                <td>{item.id}</td>
+                                <td>{item.type}</td>
+                                <td onClick={() => { handleShowHistory(index) }}>{item.data[getMonth()].transfer_in}</td>
+                                <Modal isOpen={historyButton && counter === index} ariaHideApp={false}>
+                                    <History id={item.id} month={getMonth()} closeHistoryModal={closeHistoryModal} />
+                                </Modal>
+                                <td>{item.data[getMonth()].transfer_out}</td>
+                                <td>{item.data[getMonth()].note}</td>
+                                <td><button className="btn" style={{ color: "blue" }} onClick={() => handleTransForm(index)} >=</button></td>
+                                <Modal isOpen={transButton && counter === index} ariaHideApp={false}>
+                                    {/* modal打开条件符合点击状态为ture和索引数=当前表格 */}
+                                    <Transfer getMonth={getMonth()} id={item.id} onChangeStates={onChangeStates} closeModal={closeModal} transferSucc={handleTransferSucc} />
+                                </Modal>
+                            </tr>
                         )
-                    }): ''}
+                    })}
                 </tbody>
             </table>
         </React.Fragment>
