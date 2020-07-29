@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://mirrors.aliyun.com/pypi/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+autopep8 = "*"
+
+[packages]
+flask = "*"
+python-dotenv = "*"
+pymongo = "*"
+flask-cors = "*"
+pyjwt = "*"
+flask-restful = "*"
+
+[requires]
+python_version = "3.8"
