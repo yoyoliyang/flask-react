@@ -22,8 +22,6 @@ def add_user():
         print(request_data)
         with MongoClient(os.getenv('MONGO_URI')) as c:
             users = c.ningxin.users
-            if users.find_one({"user": request_data.get('user')}):
-                return {'error': '重复的用户名'}
             if users.find_one({"id": request_data.get('id')}):
                 return {'error': '重复的id'}
             else:

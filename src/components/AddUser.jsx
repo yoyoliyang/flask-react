@@ -22,7 +22,6 @@ const AddUser = (props) => {
 		},
 		create_date: props.getMonth
 	})
-
 	const [responseInfo, setResponseInfo] = useState('')
 
 	const [addUserFail, setAddUserFail] = useState(false)
@@ -39,6 +38,11 @@ const AddUser = (props) => {
 	}
 
 	const handleSubmitAddUser = (e) => {
+		if (addUser.user === '' || addUser.id === ''){
+			setAddUserFail(true)
+			setResponseInfo('都是空的，没填写怎么保存:(')
+			return 
+		}
 		// post添加后的数据
 		fetch(apiUrl,
 			{

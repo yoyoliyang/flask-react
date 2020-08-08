@@ -39,24 +39,26 @@ const History = (props) => {
                 <span aria-hidden="true">x</span>
             </button>
             <div className="mb-3">
-                <h3>历史出入金数据</h3>
+                <h3>历史出回款数据</h3>
             </div>
             <table className="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>日期</th>
-                        <th>入金</th>
+                        <th>回款</th>
                         <th>出金</th>
+                        <th>备注</th>
                     </tr>
                 </thead>
                 <tbody>
                     {items.map((date, index) => {
                         return (
-                                <tr key={index}>
-                                    <td>{date}</td>
-                                    <td>{data[date]['transfer_in']}</td>
-                                    <td>{data[date]['transfer_out']}</td>
-                                </tr>
+                            <tr key={index}>
+                                <td>{date}</td>
+                                <td>{data[date]['transfer_in']}</td>
+                                <td>{data[date]['transfer_out']}</td>
+                                <td>{data[date]['note']}</td>
+                            </tr>
                         )
                     })}
                 </tbody>

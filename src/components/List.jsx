@@ -16,6 +16,17 @@ const List = () => {
         setTransferSucc(x)
     }
 
+    // 到期日期提醒
+    const [expireNotice, setExpireNotice] = useState('')
+    const checkExpire = () => {
+        const dateNow = new Date().getTime()
+        return dateNow
+    }
+    const newDate = (x) => {
+        const nd = new Date(x).getTime()
+        return nd - checkExpire() < 600000
+    }
+
     const onChangeStates = () => {
         setTransButton(!transButton)
         fetchUsersData()
@@ -79,31 +90,38 @@ const List = () => {
             <table className="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th >#</th>
-                        <th >用户</th>
-                        <th >帐号</th>
-                        <th >类型</th>
-                        <th >月份({getMonth().slice(4, 6)})入金</th>
-                        <th >出金</th>
-                        <th >备注</th>
-                        <th >操作</th>
+                        <th>#</th>
+                        <th>用户</th>
+                        <th>帐号</th>
+                        <th>月份({getMonth().slice(4, 6)})回款</th>
+                        <th>类型</th>
+                        <th>合同期限</th>
+                        <th>到期日期</th>
+                        <th>出金</th>
+                        <th>备注</th>
+                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     {data.map((item, index) => {
                         return (
                             <tr>
-                                <td>{index + 1}</td>
-                                <td>{item.user}</td>
-                                <td>{item.id}</td>
-                                <td>{item.type}</td>
-                                <td onClick={() => { handleShowHistory(index) }}>{item.data[getMonth()].transfer_in}</td>
+                                <td className="align-middle">{index + 1}</td>
+                                <td className="align-middle">{item.user}</td>
+                                <td className="align-middle">{item.id}</td>
+                                <td className="align-middle" style={{ cursor: "pointer" }} onClick={() => { handleShowHistory(index) }}>
+                                    {item.data[getMonth()] ? item.data[getMonth()].transfer_in: '未操作'}</td>
                                 <Modal isOpen={historyButton && counter === index} ariaHideApp={false}>
                                     <History id={item.id} month={getMonth()} closeHistoryModal={closeHistoryModal} />
                                 </Modal>
-                                <td>{item.data[getMonth()].transfer_out}</td>
-                                <td>{item.data[getMonth()].note}</td>
-                                <td><button className="btn" style={{ color: "blue" }} onClick={() => handleTransForm(index)} >=</button></td>
+                                <td className="align-middle">{item.type}</td>
+                                <td className="align-middle">{item.conrtract_period}</td>
+                                <td className="align-middle"
+                                    style={{ color: newDate(item.expire) ? "red" : '' }}
+                                >{item.expire}</td>
+                                <td className="align-middle">{item.data[getMonth()] ? item.data[getMonth()].transfer_out: '未操作'}</td>
+                                <td className="align-middle">{item.data[getMonth()] ? item.data[getMonth()].note: ''}</td>
+                                <td className="align-middle"><button className="btn" style={{ color: "blue" }} onClick={() => handleTransForm(index)} >=</button></td>
                                 <Modal isOpen={transButton && counter === index} ariaHideApp={false}>
                                     {/* modal打开条件符合点击状态为ture和索引数=当前表格 */}
                                     <Transfer getMonth={getMonth()} id={item.id} onChangeStates={onChangeStates} closeModal={closeModal} transferSucc={handleTransferSucc} />

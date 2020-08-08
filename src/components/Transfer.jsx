@@ -11,32 +11,47 @@ const Transfer = (props) => {
         note: ''
     })
 
+    const [notice, setNotice] = useState('')
+    const [noticeButton, setNoticeButton] = useState(false)
+    const handleNoticeButton = () => {
+        setNoticeButton(false)
+    }
+
 
 
     const addTransferForm = () => {
         return (
-            <form>
-                <button type="button" className="close" onClick={props.closeModal}>
-                    <span aria-hidden="true">x</span>
-                </button>
-                <div className="mb-3">
-                    <label>日期：</label>
-                    <input type="date" className="form-control" name="transferDate" onChange={(e) => { handleAddTransfer(e) }} required></input>
-                </div>
-                <div className="mb-3">
-                    <label>入金：</label>
-                    <input type="number" className="form-control" name="transferIn" value={transfer.transferIn} onChange={(e) => { handleAddTransfer(e) }} placeholder='入金金额' required></input>
-                </div>
-                <div className="mb-3">
-                    <label>出金：</label>
-                    <input type="number" className="form-control" name="transferOut" value={transfer.transferOut} onChange={(e) => { handleAddTransfer(e) }} placeholder="出金金额" required></input>
-                </div>
-                <div className="mb-3">
-                    <label>备注：</label>
-                    <textarea className="form-control" type="text" name="note" value={transfer.note} onChange={(e) => { handleAddTransfer(e) }} placeholder="备注"></textarea>
-                </div>
-                <button type="button" className="btn btn-primary" onClick={handleSubmit}>保存</button>
-            </form>
+            <>
+                { noticeButton ?
+                    <div className="alert alert-warning">
+                        <button type="button" className="close" onClick={() => handleNoticeButton()}>&times;</button>
+                        <strong>{notice}</strong>
+                    </div> :
+                    ''
+                }
+                <form>
+                    <button type="button" className="close" onClick={props.closeModal}>
+                        <span aria-hidden="true">x</span>
+                    </button>
+                    <div className="mb-3">
+                        <label>日期：</label>
+                        <input type="date" className="form-control" name="transferDate" onChange={(e) => { handleAddTransfer(e) }} required></input>
+                    </div>
+                    <div className="mb-3">
+                        <label>入金：</label>
+                        <input type="number" className="form-control" name="transferIn" value={transfer.transferIn} onChange={(e) => { handleAddTransfer(e) }} placeholder='入金金额' required></input>
+                    </div>
+                    <div className="mb-3">
+                        <label>出金：</label>
+                        <input type="number" className="form-control" name="transferOut" value={transfer.transferOut} onChange={(e) => { handleAddTransfer(e) }} placeholder="出金金额" required></input>
+                    </div>
+                    <div className="mb-3">
+                        <label>备注：</label>
+                        <textarea className="form-control" type="text" name="note" value={transfer.note} onChange={(e) => { handleAddTransfer(e) }} placeholder="备注"></textarea>
+                    </div>
+                    <button type="button" className="btn btn-primary" onClick={handleSubmit}>保存</button>
+                </form>
+            </>
         )
     }
 
@@ -55,6 +70,11 @@ const Transfer = (props) => {
 
     //POST
     const handleSubmit = (e) => {
+        if (transfer.transferDate === '' || transfer.transferIn === '' || transfer.transferOut === '') {
+            setNotice('请填写点东西再保存吧？')
+            setNoticeButton(true)
+            return
+        }
         // 定义json POST数据
         const data = {
             id: props.id,
